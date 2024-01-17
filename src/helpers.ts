@@ -26,15 +26,16 @@ export function formatFyData(fy: string, { headers, fiscalYears, rows }: Forecas
     // Since the number of data entries found in the 'rows' array should be the same
     // amount as fiscalYears.length * headers.length, we can use that fact to index into the rows.
     //
-    // Example:
+    // Example: 
     // We have 5 fiscal years and 2 headers/categories/titles/whatever and we know that the incoming
     // row data is aligned in a single dimensional array.
-    // We can therefore deduce that, in order to find the data for the current fy,
-    // we would have to first use the fy index from above as an offset in the array to find
-    // the relevant values. Then, to get the values for the second header, we would have to
-    // step by the amount of fiscal years in order to reach the next relevant data, and so on.
+    // We know that the amount of values per row is the same amount as the amount of fiscal years and we know that the
+    // amount of headers equals the amount of rows. This fact allows us to move between rows using the header index,
+    // and the row values using the fiscal year index. So, using headerIdx * fiscalYears.length, we can find the row we want.
+    // Adding the fiscal year index of the currently handled fiscal year we can find the values we are looking for.
     //
-    // That is how this data fetching is done.
+    // This essentially turns the row based backend data into sectioned off column data instead which allows us to split it up into separate components we can render without them being
+    // dependent on each other.
     values.push(rows[(headerIdx * fiscalYears.length) + fyIdx])
   }
 
