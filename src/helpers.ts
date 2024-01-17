@@ -1,14 +1,14 @@
 import { ForecastData, SectionData } from './types'
 
 // example tooltips for visualization purposes.
-export const tooltips = [
+export const tooltipStrings = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.',
   'Tempor incididunt ut labore et dolore magna aliqua.',
   'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
   'Deserunt mollit anim id est laborum'
 ]
 
-export function formatFyData(fy: string, { headers, fiscalYears, rows }: ForecastData): SectionData | null {
+export function transformIncomingForecastData(fy: string, { headers, fiscalYears, rows }: ForecastData): SectionData | null {
   // Find the index of the fiscal year we are currently interested in.
   // We can later use that to index into the "rows" array in the forecast data.
   const fyIdx = fiscalYears.findIndex(fyear => fyear === fy);
@@ -46,7 +46,7 @@ export function formatFyData(fy: string, { headers, fiscalYears, rows }: Forecas
 }
 
 // here we want to calculate the sum of all values for each row.
-export function calculateTotals({ headers, fiscalYears, rows }: ForecastData): SectionData {
+export function calculateTotalsFromForecastData({ headers, fiscalYears, rows }: ForecastData): SectionData {
   let totalSection: SectionData = {
     header: 'Total',
     values: []
@@ -75,7 +75,7 @@ export function calculateTotals({ headers, fiscalYears, rows }: ForecastData): S
 }
 
 // simple title/header/category formatting
-export function formatTitles({ headers }: ForecastData): SectionData {
+export function formatTitleData({ headers }: ForecastData): SectionData {
   return {
     header: 'Type of Benefits',
     titles: headers

@@ -1,6 +1,6 @@
 import TableSection from "./TableSection";
 import { SectionData, TableProps } from "./types";
-import { calculateTotals, formatFyData, formatTitles } from './helpers';
+import { calculateTotalsFromForecastData, transformIncomingForecastData, formatTitleData } from './helpers';
 import { useEffect, useState } from "react";
 
 function Table({ data }: TableProps) {
@@ -13,21 +13,21 @@ function Table({ data }: TableProps) {
     // format all fy data into manageable data
     const sectionDataCollection = []
     for (const fy of data.fiscalYears) {
-      const sectionData = formatFyData(fy, data);
+      const sectionData = transformIncomingForecastData(fy, data);
       if (sectionData) {
         sectionDataCollection.push(sectionData)
       }
     }
 
     // produce the data for the "Total" section
-    setTotalData(calculateTotals(data))
+    setTotalData(calculateTotalsFromForecastData(data))
     setFyDataCollection(sectionDataCollection)
   }, [])
 
   return (
     <div className='table'>
       {/*here we keep the title section and the total section separate from the fy sections to allow for the fy sections to be in a scrollable container*/}
-      <TableSection data={formatTitles(data)} />
+      <TableSection data={formatTitleData(data)} />
       {totalData && <TableSection data={totalData} />}
       <div className='scrollable-fy-sections'>
         {fyDataCollection.map(fy => (

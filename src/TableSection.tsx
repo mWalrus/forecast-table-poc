@@ -1,4 +1,4 @@
-import { tooltips } from "./helpers";
+import { tooltipStrings } from "./helpers";
 import InfoDot from "./InfoDot";
 import TableSectionHeader from "./TableSectionHeader";
 import { TableSectionProps } from "./types";
@@ -39,7 +39,7 @@ function TableSection({ data }: TableSectionProps) {
           {data.titles.map((v, i) => (
             <div className={`title-container table-cell ${i % 2 !== 0 ? 'alt-bg' : ''}`}>
               <span>{v}</span>
-              <InfoDot id={i} text={tooltips[i]} />
+              <InfoDot id={i} text={tooltipStrings[i]} />
             </div>
           ))}
         </div>
