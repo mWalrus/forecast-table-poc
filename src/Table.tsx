@@ -27,11 +27,11 @@ function Table({ data }: TableProps) {
   return (
     <div className='table'>
       {/*here we keep the title section and the total section separate from the fy sections to allow for the fy sections to be in a scrollable container*/}
-      <TableSection data={formatTitleData(data)} />
-      {totalData && <TableSection data={totalData} />}
+      <TableSection key='titles' data={formatTitleData(data)} />
+      {totalData && <TableSection key={'totals'} data={totalData} />}
       <div className='scrollable-fy-sections'>
-        {fyDataCollection.map(fy => (
-          <TableSection data={fy} />
+        {fyDataCollection.map((fy, i) => (
+          <TableSection key={`fy-section-${i}`} data={fy} />
         ))}
       </div>
     </div>
