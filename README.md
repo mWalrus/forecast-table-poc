@@ -1,46 +1,20 @@
-# Getting Started with Create React App
+# Forecast Table Update
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Why?
+The current version of the forecast table in 10jobstool is clunky, overly complicated and looks sub-par.
+It uses a bunch of z-index, "after" css pseudo-elements, and more unnecessary styling in order to accomplish a less than stellar result.
+We have run into issues stemming from these over complications now when we are revamping benefits, and I decided that we should create a
+better version of the current implementation.
 
-## Available Scripts
+This POC is a simplified, more robust and better looking refresher of this table in order to allow for easier updates and more unified data
+distribution across components. We have broken up components into pieces that make sense and are both easy to use and understand. This is
+done without taking away from the general visual design and usability of the table from an end-user perspective.
 
-In the project directory, you can run:
 
-### `npm start`
+## Additional Possible Improvements
+- This implementation currently mimicks the data returned from the backend which has the old forecast table implementation in mind just to make implementation of this
+version into the current system more of a plug-and-play experience. However, we could also modify the data aggregation in the backend to make it easier to use with
+this new table version.
+- Currently, this implementation starts behaving a little funky whenever the viewport gets too small (around 720px in the Y direction and 500px in the X direction).
+This has to be fixed before we consider implementing this new version.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
