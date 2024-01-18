@@ -35,7 +35,11 @@ function Table({ data }: TableProps) {
       {totalData && <TableSection key='totals' data={totalData} />}
       <div className='scrollable-fy-sections'>
         {fyDataCollection.map((fy, i) => (
-          <TableSection key={`fy-section-${i}`} data={fy} />
+          <TableSection
+            key={`fy-section-${i}`}
+            fySection
+            data={fy}
+          />
         ))}
       </div>
     </div>

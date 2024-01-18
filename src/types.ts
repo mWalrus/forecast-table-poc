@@ -37,6 +37,7 @@ export interface TableSectionHeaderProps {
 export interface TableSectionProps {
   titles?: boolean
   data: SectionData
+  fySection?: boolean
 }
 
 // the props passed to an info dot

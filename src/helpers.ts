@@ -18,7 +18,7 @@ export function transformIncomingForecastData(fy: string, { headers, fiscalYears
     return null;
   }
 
-  let values = [];
+  let sectionValues = [];
   // Here we iterate over each of the headers and take their index.
   // We do this because we can use that index together with the fy index to fetch data
   // from the rows array.
@@ -36,12 +36,26 @@ export function transformIncomingForecastData(fy: string, { headers, fiscalYears
     //
     // This essentially turns the row based backend data into sectioned off column data instead which allows us to split it up into separate components we can render without them being
     // dependent on each other.
-    values.push(rows[(headerIdx * fiscalYears.length) + fyIdx])
+    sectionValues.push(rows[(headerIdx * fiscalYears.length) + fyIdx])
   }
+
+  // sum each column in the current section
+  let budgetSum = 0;
+  let forecastSum = 0;
+  for (const value of sectionValues) {
+    budgetSum += value.budget;
+    forecastSum += value.forecast || 0;
+  }
+
+  // append those values to the section for display
+  sectionValues.push({
+    budget: budgetSum,
+    forecast: forecastSum
+  })
 
   return {
     header: fy,
-    values
+    values: sectionValues
   }
 }
 
@@ -52,6 +66,8 @@ export function calculateTotalsFromForecastData({ headers, fiscalYears, rows }: 
     values: []
   }
 
+  let budgetSum = 0;
+  let forecastSum = 0;
   // this accumulation is done in a similar sense to how we fetch data above.
   for (let headerIdx = 0; headerIdx < headers.length; headerIdx++) {
     // define temporary variables for the current table row
@@ -66,11 +82,21 @@ export function calculateTotalsFromForecastData({ headers, fiscalYears, rows }: 
       forecast += rowData.forecast || 0;
     }
 
+    budgetSum += budget;
+    forecastSum += forecast;
     // append the current row to the total data
     totalSection.values?.push({
       budget, forecast
     })
   }
+  totalSection.values?.push({
+    budget: budgetSum,
+    forecast: forecastSum
+  })
+  totalSection.values?.push({
+    budget: forecastSum - budgetSum,
+    forecast: (forecastSum / budgetSum) * 100 | 0
+  })
   return totalSection
 }
 
@@ -78,9 +104,22 @@ export function calculateTotalsFromForecastData({ headers, fiscalYears, rows }: 
 export function formatRowTitleData({ headers }: ForecastData): SectionData {
   return {
     header: 'Type of Benefits',
-    titles: headers
+    titles: [
+      ...headers,
+      'Total (K€)',
+      'FC - BU (K€) & Index'
+    ]
   }
 }
 
 // decides which class to assign to a row in an alternating fashion
 export const bgClass = (i: number) => i % 2 === 0 ? '' : 'alt-bg'
+
+export const isBold = (
+  collection: any[] | undefined,
+  currentIdx: number,
+  isTitles: boolean = false
+) => {
+  const threshold = isTitles ? 2 : 1;
+  return collection?.length && collection.length - currentIdx <= threshold ? 'bold' : '';
+}
