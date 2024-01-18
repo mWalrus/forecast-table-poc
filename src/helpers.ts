@@ -89,12 +89,21 @@ export function calculateTotalsFromForecastData({ headers, fiscalYears, rows }: 
       budget, forecast
     })
   }
+
+  // add the summary of budget and forecast to the total section
   totalSection.values?.push({
     budget: budgetSum,
     forecast: forecastSum
   })
+
+  // additional summary indicators
   totalSection.values?.push({
     budget: forecastSum - budgetSum,
+    // Performing a bitwise OR with 0 here truncates decimals and is faster than other methods.
+    // The downside to this is that, since bitwise OR internally converts each expression to
+    // an i32 (which is why this works), this only works for numbers within the range of i32.
+    // However, we can use this here because the customer will realistically never work with
+    // numbers that would exceed this limitation.
     forecast: (forecastSum / budgetSum) * 100 | 0
   })
   return totalSection
@@ -106,6 +115,9 @@ export function formatRowTitleData({ headers }: ForecastData): SectionData {
     header: 'Type of Benefits',
     titles: [
       ...headers,
+      // we add these additional headers here because we don't want to mess up the indexing
+      // we do when reconstructing the incoming forecast data above in
+      // transformIncomingForecastData and calculateTotalsFromForecastData.
       'Total (K€)',
       'FC - BU (K€) & Index'
     ]
@@ -115,11 +127,14 @@ export function formatRowTitleData({ headers }: ForecastData): SectionData {
 // decides which class to assign to a row in an alternating fashion
 export const bgClass = (i: number) => i % 2 === 0 ? '' : 'alt-bg'
 
+// applies the bold class to elements that meet the defined conditions.
 export const isBold = (
   collection: any[] | undefined,
   currentIdx: number,
   isTitles: boolean = false
 ) => {
+  // we want the last 2 rows in the title section and the last row in the
+  // total section to be bold
   const threshold = isTitles ? 2 : 1;
   return collection?.length && collection.length - currentIdx <= threshold ? 'bold' : '';
 }
