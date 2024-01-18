@@ -1,6 +1,6 @@
 import TableSection from "./TableSection";
 import { SectionData, TableProps } from "./types";
-import { calculateTotalsFromForecastData, transformIncomingForecastData, formatTitleData } from './helpers';
+import { calculateTotalsFromForecastData, transformIncomingForecastData, formatRowTitleData } from './helpers';
 import { useEffect, useState } from "react";
 
 function Table({ data }: TableProps) {
@@ -27,8 +27,12 @@ function Table({ data }: TableProps) {
   return (
     <div className='table'>
       {/*here we keep the title section and the total section separate from the fy sections to allow for the fy sections to be in a scrollable container*/}
-      <TableSection key='titles' data={formatTitleData(data)} />
-      {totalData && <TableSection key={'totals'} data={totalData} />}
+      <TableSection
+        key='titles'
+        titles
+        data={formatRowTitleData(data)}
+      />
+      {totalData && <TableSection key='totals' data={totalData} />}
       <div className='scrollable-fy-sections'>
         {fyDataCollection.map((fy, i) => (
           <TableSection key={`fy-section-${i}`} data={fy} />

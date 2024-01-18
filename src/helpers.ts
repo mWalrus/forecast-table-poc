@@ -27,7 +27,7 @@ export function transformIncomingForecastData(fy: string, { headers, fiscalYears
     // amount as fiscalYears.length * headers.length, we can use that fact to index into the rows.
     //
     // Example: 
-    // We have 5 fiscal years and 2 headers/categories/titles/whatever and we know that the incoming
+    // We have 5 fiscal years and 2 row titles and we know that the incoming
     // row data is aligned in a single dimensional array.
     // We know that the amount of values per row is the same amount as the amount of fiscal years and we know that the
     // amount of headers equals the amount of rows. This fact allows us to move between rows using the header index,
@@ -74,10 +74,13 @@ export function calculateTotalsFromForecastData({ headers, fiscalYears, rows }: 
   return totalSection
 }
 
-// simple title/header/category formatting
-export function formatTitleData({ headers }: ForecastData): SectionData {
+// simple row title formatting
+export function formatRowTitleData({ headers }: ForecastData): SectionData {
   return {
     header: 'Type of Benefits',
     titles: headers
   }
 }
+
+// decides which class to assign to a row in an alternating fashion
+export const bgClass = (i: number) => i % 2 === 0 ? '' : 'alt-bg'

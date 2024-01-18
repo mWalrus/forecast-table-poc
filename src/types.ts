@@ -35,6 +35,7 @@ export interface TableSectionHeaderProps {
 
 // the props for a section of a table
 export interface TableSectionProps {
+  titles?: boolean
   data: SectionData
 }
 
