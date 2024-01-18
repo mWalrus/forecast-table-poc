@@ -7,7 +7,7 @@ function TableSection({ data, titles }: TableSectionProps) {
   return (
     <div className='table-section'>
       <TableSectionHeader
-        simple={titles} // exclamation marks are used to convert to boolean
+        simple={titles}
         header={data.header}
       />
       {
